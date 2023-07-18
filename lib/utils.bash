@@ -4,6 +4,7 @@ set -euo pipefail
 
 # TODO: Ensure this is the correct GitHub homepage where releases can be downloaded for flutter.
 GH_REPO="https://github.com/flutter/flutter"
+FLUTTER_RELEASES="https://storage.googleapis.com/flutter_infra_release/releases"
 TOOL_NAME="flutter"
 TOOL_TEST="flutter --version"
 
@@ -30,10 +31,32 @@ list_github_tags() {
 		sed 's/^v//' # NOTE: You might want to adapt this sed to remove non-version strings from tags
 }
 
+# extracts json value when given a key
+get_json_value() {
+	grep -o "\"$1\": \".*\"" | sed -E "s/\"$1\": \"(.*)\"/\1/"
+}
+
+# extracts version from archive path
+# stable/macos/flutter_macos_3.10.6-stable.zip -> 3.10.6-stable
+strip_version() {
+	sed -E "s/(stable|beta|dev)\/.*\/.*([0-9]+\.[0-9]+\.[0-9]+.*)-(stable|beta|dev).*/\2-\1/"
+}
+
 list_all_versions() {
-	# TODO: Adapt this. By default we simply list the tag names from GitHub releases.
-	# Change this function if flutter has other means of determining installable versions.
-	list_github_tags
+	kernel="$(uname -s)"
+
+	if [ "$kernel" = "Darwin" ];then
+		if [ "$(uname -m)" = "arm64" ]; then
+			curl "$FLUTTER_RELEASES/releases_macos.json" | get_json_value "archive" | grep "arm64" | strip_version
+		else
+			# grep -v inverts matching result
+			curl "$FLUTTER_RELEASES/releases_macos.json" | get_json_value "archive" | grep -v "arm64" | strip_version
+		fi
+	elif [ "$kernel" = "Linux" ]; then
+		curl "$FLUTTER_RELEASES/releases_linux.json" | get_json_value "archive" | strip_version
+	else
+		fail "Unsupported kernel: $kernel"
+	fi
 }
 
 download_release() {
