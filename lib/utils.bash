@@ -28,8 +28,8 @@ archive_to_version() {
 
 # gets json string value for given key
 json_string() {
-	grep -o "\"$1\": \".*\"" \
-		| sed -E "s/\"$1\": \"(.*)\"/\1/"
+	grep -o "\"$1\": \".*\"" |
+		sed -E "s/\"$1\": \"(.*)\"/\1/"
 }
 
 # extracts archive to location
@@ -38,12 +38,12 @@ extract() {
 	local to="$2"
 
 	if [[ "$archive" =~ \.zip$ ]]; then
-		(find "$to" -not -name flutter-3.10.6-stable.zip -delete \
-			&& mkdir -p "$to/xtrtmp" \
-			&& unzip "$archive" -d "$to/xtrtmp" \
-			&& mv "$to/xtrtmp"/*/** "$to" \
-			&& rmdir "$to/xtrtmp"/* "$to/xtrtmp") \
-			|| fail "Could not extract $archive"
+		(find "$to" -not -name flutter-3.10.6-stable.zip -delete &&
+			mkdir -p "$to/xtrtmp" &&
+			unzip "$archive" -d "$to/xtrtmp" &&
+			mv "$to/xtrtmp"/*/** "$to" &&
+			rmdir "$to/xtrtmp"/* "$to/xtrtmp") ||
+			fail "Could not extract $archive"
 	elif [[ "$archive" =~ \.tar\.xz$ ]]; then
 		tar -xf "$archive" -C "$to" --strip-components=1 || fail "Could not extract $archive"
 	else
@@ -56,15 +56,15 @@ os_name() {
 	kernel="$(uname -s)"
 
 	case "$kernel" in
-		Darwin)
-			printf "macos"
-			;;
-		Linux)
-			printf "linux"
-			;;
-		*)
-			fail "Unsupported kernel: $kernel"
-			;;
+	Darwin)
+		printf "macos"
+		;;
+	Linux)
+		printf "linux"
+		;;
+	*)
+		fail "Unsupported kernel: $kernel"
+		;;
 	esac
 }
 
