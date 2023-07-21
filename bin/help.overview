@@ -11,7 +11,7 @@ plugin_dir=$(dirname "$(dirname "$current_script_path")")
 printf "Manages versions of Flutter, a multi-platform app framework.\n"
 
 if [ "$(os_name)" = "macos" ] && [ "$(uname -m)" = "arm64" ]; then
-	printf "%sSince you're using an Apple Silicon Mac you must have the Rosetta translation\n" "$YELLOW"
+	printf "\033[0;33mSince you're using an Apple Silicon Mac you must have the Rosetta translation\n"
 	printf "environment available. You can install this manually by running:\n"
-	printf "  sudo softwareupdate --install-rosetta --agree-to-license%s\n" "$RSTCLR"
+	printf "  sudo softwareupdate --install-rosetta --agree-to-license\033[0m\n"
 fi
