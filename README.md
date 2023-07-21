@@ -15,18 +15,22 @@
 
 # Dependencies
 
-**TODO: adapt this section**
+General: `curl`, `grep`, `sed`, `awk`
 
-- `bash`, `curl`, `tar`: generic POSIX utilities.
-- `SOME_ENV_VAR`: set this environment variable in your shell config to load the correct version of tool x.
+Linux: `tar`
+
+MacOS: `unzip`
+
+On apple silicon rosetta needs to be installed. You can manually install it with
+```shell
+sudo softwareupdate --install-rosetta --agree-to-license
+```
 
 # Install
 
 Plugin:
 
 ```shell
-asdf plugin add flutter
-# or
 asdf plugin add flutter https://github.com/fejzuli/asdf-flutter.git
 ```
 
@@ -43,7 +47,7 @@ asdf install flutter latest
 asdf global flutter latest
 
 # Now flutter commands are available
-flutter --version
+flutter doctor
 ```
 
 Check [asdf](https://github.com/asdf-vm/asdf) readme for more instructions on how to
