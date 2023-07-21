@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+current_script_path=${BASH_SOURCE[0]}
+plugin_dir=$(dirname "$(dirname "$current_script_path")")
+
+# shellcheck source=../lib/utils.bash
+. "${plugin_dir}/lib/utils.bash"
+
+printf "Manages versions of Flutter, a multi-platform app framework.\n"
+
+if [ "$(os_name)" = "macos" ] && [ "$(uname -m)" = "arm64" ]; then
+	printf "%sSince you're using an Apple Silicon Mac you must have the Rosetta translation\n" "$YELLOW"
+	printf "environment available. You can install this manually by running:\n"
+	printf "  sudo softwareupdate --install-rosetta --agree-to-license%s\n" "$RSTCLR"
+fi

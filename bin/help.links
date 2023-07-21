@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+printf "Documentation: https://docs.flutter.dev\n"
+printf "API Documentation: https://api.flutter.dev\n"
+printf "Git Repository: https://github.com/flutter/flutter\n"

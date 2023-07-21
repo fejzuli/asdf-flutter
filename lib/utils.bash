@@ -4,6 +4,10 @@ set -euo pipefail
 # file globbing */** should include files with leading dot in name
 shopt -s dotglob
 
+YELLOW=$(printf "\033[0;33m")
+RSTCLR=$(printf "\033[0m")
+
+
 FLUTTER_RELEASES="https://storage.googleapis.com/flutter_infra_release/releases"
 TOOL_NAME="flutter"
 TOOL_TEST="flutter --version"
